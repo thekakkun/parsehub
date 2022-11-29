@@ -38,20 +38,19 @@ root = {
     },
 }
 
-
 @bp.route('/<path:target>', methods=['GET'])
 def get_contents(target):
     if not path_type(root, target.split('/')):
-        abort(404)
+        abort(404, description="directory or file not found")
     else:
-        return jsonify(get_content(root, target.split('/')))
+        return jsonify(get_content(root, target.split('/'))), 200
 
 
 def path_type(directory, path_components):
     (top, rest) = (path_components[0], path_components[1:])
-    target = directory['children'][top]
 
     try:
+        target = directory['children'][top]
         if not rest:
             return target['type']
         else:
