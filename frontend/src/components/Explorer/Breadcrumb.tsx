@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import useBreadcrumbLevels from "../hooks/useBreadcrumbLevels";
+import useBreadcrumbLevels from "../../hooks/useBreadcrumbLevels";
 
 export default function Breadcrumb() {
   let breadcrumbLevels = useBreadcrumbLevels();
-  console.log(breadcrumbLevels)
 
   return (
     <nav>

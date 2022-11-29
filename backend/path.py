@@ -67,11 +67,21 @@ def get_content(directory, path_components):
     if not rest:
         if target['type'] == 'dir':
             return {
-                k: {'type': v['type']}
-                for k, v in target['children'].items()
+                'name': top,
+                'type': 'dir',
+                'content': {
+                    k: {'type': v['type']}
+                    for k, v in target['children'].items()
+                }
             }
+
         elif target['type'] == 'file':
-            return f'THIS IS FILE {top}'
+            return {
+                'name': top,
+                'type': 'file',
+                'content': f'THIS IS FILE {top}'
+            }
+
         else:
             raise Exception('Unknown target type.')
     else:
