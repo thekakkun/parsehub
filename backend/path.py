@@ -1,8 +1,5 @@
 from flask import Blueprint, abort, jsonify
 
-bp = Blueprint('path', __name__, url_prefix='/path')
-
-
 root = {
     'type': 'dir',
     'children': {
@@ -38,15 +35,21 @@ root = {
     },
 }
 
+bp = Blueprint('path', __name__, url_prefix='/path')
+
+
+@bp.route('/', defaults={'target': 'home'})
 @bp.route('/<path:target>', methods=['GET'])
+@bp.route('/<path:target>/', methods=['GET'])
 def get_contents(target):
-    if not path_type(root, target.split('/')):
+    if not path_type(root, target):
         abort(404, description="directory or file not found")
     else:
-        return jsonify(get_content(root, target.split('/'))), 200
+        return jsonify(get_content(root, target)), 200
 
 
-def path_type(directory, path_components):
+def path_type(directory, target):
+    path_components = target.split('/')
     (top, rest) = (path_components[0], path_components[1:])
 
     try:
@@ -54,12 +57,13 @@ def path_type(directory, path_components):
         if not rest:
             return target['type']
         else:
-            return path_type(target, rest)
+            return path_type(target, '/'.join(rest))
     except KeyError:
         return False
 
 
-def get_content(directory, path_components):
+def get_content(directory, target):
+    path_components = target.split('/')
     (top, rest) = (path_components[0], path_components[1:])
     target = directory['children'][top]
 
@@ -84,4 +88,4 @@ def get_content(directory, path_components):
         else:
             raise Exception('Unknown target type.')
     else:
-        return get_content(target, rest)
+        return get_content(target, '/'.join(rest))
