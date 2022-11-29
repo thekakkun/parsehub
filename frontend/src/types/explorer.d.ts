@@ -1,15 +1,13 @@
 interface Directory {
+  name: string;
   type: "dir";
-  contents: { [string]: { type: "file" | "dir" } };
+  content: { [string]: { type: "file" | "dir" } };
 }
 
 interface File {
+  name: string;
   type: "file";
-  contents: string;
+  content: string;
 }
 
-export interface Response {
-  name: string;
-  type: "file" | "dir";
-  content: Directory | File;
-}
+export type Response = Directory | File;

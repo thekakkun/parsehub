@@ -7,9 +7,6 @@ export default function Breadcrumb() {
   return (
     <nav>
       <ol>
-        <li>
-          <Link to="/">root</Link>
-        </li>
         {breadcrumbLevels.map((level) => (
           <li key={level.name}>
             <Link to={level.link}>{level.name}</Link>
