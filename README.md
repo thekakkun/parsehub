@@ -47,3 +47,41 @@ let root = {
   },
 };
 ```
+
+## Instructions
+
+### Backend
+
+Backend has been implemented in Python using Flask.
+
+1. Install required packages
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. Start dev server
+
+   By default, server will run from http://localhost:5000.
+
+   ```bash
+   flask run
+   ```
+
+### Frontend
+
+React, written in TypeScript.
+
+1. Install required packages
+
+   ```bash
+   npm install
+   ```
+
+2. Start app
+
+   Note: API URL is currently hard-coded in the [useFileContents hook](/frontend/src/hooks/useFileContents.ts)
+
+   ```bash
+   npm start
+   ```
