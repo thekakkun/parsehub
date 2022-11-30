@@ -17,7 +17,7 @@ export default function Files() {
         {Object.entries(response.content).map(([k, v]) => (
           <li key={k} className={styles.item}>
             <Link to={k} relative="path">
-              {`${(v as any).type === "dir" ? "📁" : "📄"} ${k}`}
+              {`${v.type === "dir" ? "📁" : "📄"} ${k}`}
             </Link>
           </li>
         ))}

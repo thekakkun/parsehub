@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
+const DB_URL = "http://localhost:5000";
+
 interface Directory {
   name: string;
   type: "dir";
@@ -30,10 +32,7 @@ export default function useFileContents() {
   useEffect(() => {
     async function fetchContents() {
       try {
-        let response = await fetch(
-          // #TODO: Don't hardcode this.
-          `http://localhost:5000/path${location.pathname}`
-        );
+        let response = await fetch(`${DB_URL}/path${location.pathname}`);
         let contents: Response | Error = await response.json();
 
         if ("error" in contents) {
