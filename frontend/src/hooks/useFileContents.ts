@@ -9,15 +9,19 @@ export default function useFileContents() {
 
   useEffect(() => {
     async function fetchContents() {
-      let response = await fetch(
-        `http://localhost:5000/path${location.pathname}`
-      );
-      let contents: Response | Error = await response.json();
+      try {
+        let response = await fetch(
+          `http://localhost:5000/path${location.pathname}`
+        );
+        let contents: Response | Error = await response.json();
 
-      if ("error" in contents) {
-        setError(contents);
-      } else {
-        setResponse(contents);
+        if ("error" in contents) {
+          setError(contents);
+        } else {
+          setResponse(contents);
+        }
+      } catch (e) {
+        setError({ error: String(e) });
       }
     }
 

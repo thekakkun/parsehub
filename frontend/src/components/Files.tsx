@@ -9,7 +9,7 @@ export default function Files() {
   if (response === null) {
     return <p>...</p>;
   } else if ("error" in response) {
-    return <p>Directory or file not found.</p>;
+    return <p>{response.error}</p>;
   } else if (response.type === "dir") {
     return (
       <ol className={styles.wrapper}>
