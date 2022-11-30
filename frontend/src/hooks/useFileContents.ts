@@ -37,8 +37,10 @@ export default function useFileContents() {
 
         if ("error" in contents) {
           setError(contents);
+          setResponse(null);
         } else {
           setResponse(contents);
+          setError(null);
         }
       } catch (e) {
         setError({ error: String(e) });
