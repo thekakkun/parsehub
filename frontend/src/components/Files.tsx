@@ -7,6 +7,7 @@ export default function Files() {
   const response = useFileContents();
 
   if (response === null) {
+    // No results from API. Either loading or awaiting timeout.
     return <p>...</p>;
   } else if ("error" in response) {
     return <p>{response.error}</p>;
@@ -25,6 +26,7 @@ export default function Files() {
   } else if (response.type === "file") {
     return <p>{response.content}</p>;
   } else {
+    // Target type is not 'dir' or 'file'. Unimplemented.
     return <p>Unknown type</p>;
   }
 }

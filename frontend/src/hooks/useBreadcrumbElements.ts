@@ -18,6 +18,11 @@ export default function useBreadcrumbElements() {
   return bcElements;
 }
 
+/**
+ * Break down current url path for use in breadcrumb.
+ * @param path Current path
+ * @returns List of BreadcrumbElement objects, for each level of the current path from shallowest to deepest level.
+ */
 function path2BcElements(path: string): BreadcrumbElement[] {
   const pathComponents = path.split("/").filter(Boolean);
 

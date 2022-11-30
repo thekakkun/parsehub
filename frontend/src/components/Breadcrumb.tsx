@@ -10,8 +10,9 @@ export default function Breadcrumb() {
     <nav>
       <ol className={styles.wrapper}>
         <li className={styles.link}>
-          <Link to="/">🏠 root</Link>
+          <Link to="/">root</Link>
         </li>
+        {/* #TODO: only show levels below 'root' element. */}
         {breadcrumbElements.map((level) => (
           <li key={level.name} className={styles.link}>
             <Link to={level.link}>{level.name}</Link>

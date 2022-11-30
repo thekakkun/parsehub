@@ -18,6 +18,10 @@ interface Error {
   error: string;
 }
 
+/**
+ * Attempt to get contents of path.
+ * @returns Contents of target path or error.
+ */
 export default function useFileContents() {
   const location = useLocation();
   const [response, setResponse] = useState<null | Response>(null);
@@ -27,6 +31,7 @@ export default function useFileContents() {
     async function fetchContents() {
       try {
         let response = await fetch(
+          // #TODO: Don't hardcode this.
           `http://localhost:5000/path${location.pathname}`
         );
         let contents: Response | Error = await response.json();
