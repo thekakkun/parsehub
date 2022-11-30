@@ -43,8 +43,13 @@ bp = Blueprint('path', __name__, url_prefix='/path')
 @bp.route('/<path:target>', methods=['GET'])
 @bp.route('/<path:target>/', methods=['GET'])
 def file_explorer(target):
+    """Return contents of directory or file.
+    Defaults to root if target path unspecified.
+    Ignores trailing slash.
+    """
+
     try:
-        path_type(root, target)
+        path_is_valid(root, target)
         return jsonify(get_content(root, target)), 200
 
     except NotFound:
@@ -53,7 +58,10 @@ def file_explorer(target):
         abort(422, description=f'{e}')
 
 
-def path_type(directory, target):
+def path_is_valid(directory, target):
+    """Check if path is valid, raise NotFound() if specified path is not found.
+    If path is valid, returns target type ('dir' or 'file')
+    """
     path_components = target.split('/')
     (top, rest) = (path_components[0], path_components[1:])
 
@@ -62,12 +70,15 @@ def path_type(directory, target):
         if not rest:
             return target['type']
         else:
-            return path_type(target, '/'.join(rest))
+            return path_is_valid(target, '/'.join(rest))
     except KeyError:
         raise NotFound()
 
 
 def get_content(directory, target):
+    """Return contents of directory (non-recursive) or file.
+    Any unknown content types will raise exception.
+    """
     path_components = target.split('/')
     (top, rest) = (path_components[0], path_components[1:])
     target = directory['children'][top] if target else directory
