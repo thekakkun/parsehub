@@ -1,0 +1,19 @@
+.wrapper {
+  padding: 0;
+
+  .link {
+    display: inline;
+
+    &:not(:first-child) {
+      &::before {
+        content: " > ";
+      }
+    }
+
+    &:last-child a {
+      text-decoration: none;
+      color: inherit;
+      cursor: default;
+    }
+  }
+}

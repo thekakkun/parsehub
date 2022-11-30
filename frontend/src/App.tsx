@@ -1,14 +1,17 @@
-import "./App.css";
 import { BrowserRouter as Router } from "react-router-dom";
-import Breadcrumb from "./components/Explorer/Breadcrumb";
-import Files from "./components/Explorer/Files";
+
+import styles from "./App.module.scss";
+import Breadcrumb from "./components/Breadcrumb";
+import Files from "./components/Files";
 
 function App() {
   return (
-    <Router>
-      <Breadcrumb></Breadcrumb>
-      <Files></Files>
-    </Router>
+    <div className={styles.app}>
+      <Router>
+        <Breadcrumb></Breadcrumb>
+        <Files></Files>
+      </Router>
+    </div>
   );
 }
 
