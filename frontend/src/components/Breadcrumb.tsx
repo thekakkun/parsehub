@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
 import styles from "./Breadcrumb.module.scss";
-import useBreadcrumbLevels from "../hooks/useBreadcrumbLevels";
+import useBreadCrumbElements from "../hooks/useBreadcrumbElements";
 
 export default function Breadcrumb() {
-  let breadcrumbLevels = useBreadcrumbLevels();
+  let breadcrumbElements = useBreadCrumbElements();
 
   return (
     <nav>
@@ -12,7 +12,7 @@ export default function Breadcrumb() {
         <li className={styles.link}>
           <Link to="/">🏠 root</Link>
         </li>
-        {breadcrumbLevels.map((level) => (
+        {breadcrumbElements.map((level) => (
           <li key={level.name} className={styles.link}>
             <Link to={level.link}>{level.name}</Link>
           </li>

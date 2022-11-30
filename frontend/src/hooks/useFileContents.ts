@@ -1,11 +1,27 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Response, Error } from "../types/explorer";
+
+interface Directory {
+  name: string;
+  type: "dir";
+  content: { [contentName: string]: { type: "file" | "dir" } };
+}
+interface File {
+  name: string;
+  type: "file";
+  content: string;
+}
+
+type Response = Directory | File;
+
+interface Error {
+  error: string;
+}
 
 export default function useFileContents() {
+  const location = useLocation();
   const [response, setResponse] = useState<null | Response>(null);
   const [error, setError] = useState<null | Error>(null);
-  const location = useLocation();
 
   useEffect(() => {
     async function fetchContents() {
@@ -28,5 +44,5 @@ export default function useFileContents() {
     fetchContents();
   }, [location.pathname]);
 
-  return error || response;
+  return response || error;
 }
