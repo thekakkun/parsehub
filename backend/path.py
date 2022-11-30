@@ -49,6 +49,8 @@ def file_explorer(target):
 
     except NotFound:
         abort(404, description='directory or file not found')
+    except Exception as e:
+        abort(422, description=f'{e}')
 
 
 def path_type(directory, target):
