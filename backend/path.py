@@ -1,4 +1,5 @@
 from flask import Blueprint, abort, jsonify
+from werkzeug.exceptions import NotFound
 
 root = {
     'type': 'dir',
@@ -38,14 +39,16 @@ root = {
 bp = Blueprint('path', __name__, url_prefix='/path')
 
 
-@bp.route('/', defaults={'target': 'home'})
+@bp.route('/', defaults={'target': ''}, methods=['GET'])
 @bp.route('/<path:target>', methods=['GET'])
 @bp.route('/<path:target>/', methods=['GET'])
-def get_contents(target):
-    if not path_type(root, target):
-        abort(404, description="directory or file not found")
-    else:
+def file_explorer(target):
+    try:
+        path_type(root, target)
         return jsonify(get_content(root, target)), 200
+
+    except NotFound:
+        abort(404, description='directory or file not found')
 
 
 def path_type(directory, target):
@@ -53,19 +56,19 @@ def path_type(directory, target):
     (top, rest) = (path_components[0], path_components[1:])
 
     try:
-        target = directory['children'][top]
+        target = directory['children'][top] if target else directory
         if not rest:
             return target['type']
         else:
             return path_type(target, '/'.join(rest))
     except KeyError:
-        return False
+        raise NotFound()
 
 
 def get_content(directory, target):
     path_components = target.split('/')
     (top, rest) = (path_components[0], path_components[1:])
-    target = directory['children'][top]
+    target = directory['children'][top] if target else directory
 
     if not rest:
         if target['type'] == 'dir':
@@ -73,8 +76,8 @@ def get_content(directory, target):
                 'name': top,
                 'type': 'dir',
                 'content': {
-                    k: {'type': v['type']}
-                    for k, v in target['children'].items()
+                    filename: {'type': metadata['type']}
+                    for filename, metadata in target['children'].items()
                 }
             }
 

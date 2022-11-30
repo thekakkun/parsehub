@@ -11,3 +11,7 @@ interface File {
 }
 
 export type Response = Directory | File;
+
+export interface Error {
+  error: string;
+}
