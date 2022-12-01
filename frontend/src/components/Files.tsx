@@ -8,7 +8,7 @@ export default function Files() {
 
   if (response === null) {
     // No results from API. Either loading or awaiting timeout.
-    return <p>...</p>;
+    return <p>loading...</p>;
   } else if ("error" in response) {
     return <p>{response.error}</p>;
   } else if (response.type === "dir") {

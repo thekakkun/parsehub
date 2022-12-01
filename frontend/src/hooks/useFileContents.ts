@@ -31,16 +31,16 @@ export default function useFileContents() {
 
   useEffect(() => {
     async function fetchContents() {
+      setResponse(null);
+      setError(null);
       try {
         let response = await fetch(`${DB_URL}/path${location.pathname}`);
         let contents: Response | Error = await response.json();
 
         if ("error" in contents) {
           setError(contents);
-          setResponse(null);
         } else {
           setResponse(contents);
-          setError(null);
         }
       } catch (e) {
         setError({ error: String(e) });
